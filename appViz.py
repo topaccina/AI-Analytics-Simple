@@ -52,17 +52,20 @@ final_prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
+# chain definition
+chain = final_prompt | llm
 
+# sample dataset and viz
 df = px.data.tips()
 fig = px.box(
     df, x="time", y="total_bill", points="all", title="Restaurant Bill vs Time"
 )
 
-chain = final_prompt | llm
+# get viz json description
 
 jsonFig = pio.to_json(fig, validate=True, pretty=False, remove_uids=True, engine=None)
 
-
+# app layout items
 navbar = dbc.Navbar(
     dbc.Container(
         [
@@ -146,6 +149,7 @@ app.layout = dbc.Container(
 )
 
 
+# callbacks
 @callback(
     Output("id-markdown", "children"),
     Input("id-button", "n_clicks"),
